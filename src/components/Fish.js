@@ -38,9 +38,11 @@ export default class Fish extends Sprite {
 
     this.fish.texture = this.bigFish;
 
+    // this.fish.scale.set(1.5, 1.5);
     gsap.to(this.fish, {
       pixi: {
-        scale: 1.5,
+        scaleX: 1.5,
+        scaleY: 1.5
       },
       duration: 1,
       ease: Elastic.easeOut.config(1, 0.3)
@@ -60,10 +62,12 @@ export default class Fish extends Sprite {
   contract() {
 
     this.fish.texture = this.smallFish;
+    // this.fish.scale.set(1, 1);
 
     gsap.to(this.fish, {
       pixi: {
-        scale: 1,
+        scaleX: 1,
+        scaleY: 1,
       },
       duration: 0,
     });
