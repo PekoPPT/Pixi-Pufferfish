@@ -30,6 +30,7 @@ export default class GameApplication extends Application {
 
     this.game = new Game({
       background: this.background,
+      bigFish: this.bigFish,
     });
     this.viewport.addChild(this.game);
 
@@ -94,18 +95,22 @@ export default class GameApplication extends Application {
    *
    */
   async createBackground() {
-    const images = { background: Assets.images.background };
+    const images = {
+      background: Assets.images.background,
+      big: Assets.images.big,
+      small: Assets.images.small,
+    };
 
     await Assets.load({ images });
     await Assets.prepareImages(images);
 
-    const sprite = Sprite.from('background');
+    const background = Sprite.from('background');
 
-    this.background = sprite;
+    this.background = background;
     this.background.anchor.set(0.5);
     this.background.name = 'background';
 
-    this.stage.addChildAt(sprite);
+    this.stage.addChildAt(background);
   }
 }
 
