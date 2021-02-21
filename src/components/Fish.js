@@ -1,4 +1,4 @@
-import { Sprite, Graphics } from 'pixi.js';
+import { Sprite, Graphics, Texture } from 'pixi.js';
 import Assets from '../core/AssetManager';
 import { gsap, Elastic } from 'gsap';
 import PixiPlugin from "gsap/PixiPlugin";
@@ -13,8 +13,9 @@ export default class Fish extends Sprite {
   constructor() {
     super();
     this.name = 'fish';
-    this.bigFish = null;
+    this.fish = null;
     this.smallFish = null;
+    this.bigFish = null;
     this.initFish();
   }
 
@@ -25,20 +26,19 @@ export default class Fish extends Sprite {
    */
   async initFish() {
     await this._addFishImages();
-    await this._addEventHanlerToSmallFish();
   }
 
   /**
-   * Hides the "Small" fish sprite. Shows the "Big" fish sprite. 
-   * Scales the "Big" fish sprite 1.5 times with GSAP and easing 
+   * Hides the "Small" fish. Shows the "Big" fish. 
+   * Scales the "Fish sprite 1.5 times with GSAP and easing 
    *
    * @memberof Fish
    */
   expand() {
-    this.smallFish.visible = false;
-    this.bigFish.visible = true;
 
-    gsap.to(this.bigFish, {
+    this.fish.texture = this.bigFish;
+
+    gsap.to(this.fish, {
       pixi: {
         scale: 1.5,
       },
@@ -53,66 +53,50 @@ export default class Fish extends Sprite {
 
   /**
    * Hides the "Big" fish. Shows the "Small" fish. 
-   * Scales the "Big" fish sprite to its original size
+   * Scales the fish sprite to its original size
    *
    * @memberof Fish
    */
   contract() {
-    this.smallFish.visible = true;
-    this.bigFish.visible = false;
 
-    gsap.to(this.bigFish, {
+    this.fish.texture = this.smallFish;
+
+    gsap.to(this.fish, {
       pixi: {
         scale: 1,
       },
-      duration: 1,
-      ease: Elastic.easeOut.config(1, 0.3)
+      duration: 0,
     });
   }
 
   /**
-   * Initializes PIXI Sprites for the Big and Small fish images.
+   * Initializes PIXI Textures for the Big and Small fish images.
+   * Add pointer event to the Fish instance
    *
    * @memberof Fish
    */
   async _addFishImages() {
-
-    // Add big fish sprite
-    const bigFish = Sprite.from('big');
-
-    this.bigFish = bigFish;
-    this.bigFish.anchor.set(0.5);
-    this.bigFish.name = 'bigFish';
-    this.bigFish.x = window.innerWidth / 2;
-    this.bigFish.y = window.innerHeight / 2;
-    this.bigFish.visible = false;
-
-    window.__PIXI_APP.stage.addChild(bigFish);
-
-    // Add small fish sprite
-    const smallFish = Sprite.from('small');
-
-    this.smallFish = smallFish;
-    this.smallFish.anchor.set(0.5);
-    this.smallFish.name = 'smallFish';
-    this.smallFish.x = window.innerWidth / 2;
-    this.smallFish.y = window.innerHeight / 2;
-
-    window.__PIXI_APP.stage.addChild(smallFish);
-  }
-
-  /**
-   * Adds function that will be executed on 'pointerdown' 
-   *
-   * @memberof Fish
-   */
-  async _addEventHanlerToSmallFish() {
     const that = this;
 
-    this.smallFish.interactive = true;
-    this.smallFish.buttonMode = true;
-    this.smallFish.on('pointerdown', () => {
+    this.smallFish = Texture.from('small');
+    this.bigFish = Texture.from('big');
+
+    // Add big fish sprite
+    const fish = Sprite.from(this.smallFish);
+
+    this.fish = fish;
+    this.fish.anchor.set(0.5);
+    this.fish.name = 'fish';
+    this.fish.x = window.innerWidth / 2;
+    this.fish.y = window.innerHeight / 2;
+    this.fish.interactive = true;
+    this.fish.buttonMode = true;
+
+    this.fish.on('pointerdown', () => {
       that.expand();
     });
+    window.__PIXI_APP.stage.addChild(fish);
+
   }
+
 }
