@@ -42,8 +42,8 @@ export default class Fish extends Sprite {
 
     this.fish.texture = this.bigFish;
 
-    // this.fish.scale.set(1.5, 1.5);
-    gsap.to(this.fish, {
+    const timeline = new gsap.timeline();
+    timeline.to(this.fish, {
       pixi: {
         scaleX: 1.5,
         scaleY: 1.5
@@ -51,10 +51,16 @@ export default class Fish extends Sprite {
       duration: 1,
       ease: Elastic.easeOut.config(1, 0.3)
     });
-
-    setTimeout(() => {
+    timeline.addPause(5);
+    timeline.to(this.fish, {
+      pixi: {
+        scaleX: 1,
+        scaleY: 1
+      },
+      duration: 0,
+    }).then(() => {
       this.contract();
-    }, 5000);
+    });
   }
 
   /**
@@ -66,15 +72,14 @@ export default class Fish extends Sprite {
   contract() {
 
     this.fish.texture = this.smallFish;
-    // this.fish.scale.set(1, 1);
 
-    gsap.to(this.fish, {
-      pixi: {
-        scaleX: 1,
-        scaleY: 1,
-      },
-      duration: 0,
-    });
+    // gsap.to(this.fish, {
+    //   pixi: {
+    //     scaleX: 1,
+    //     scaleY: 1,
+    //   },
+    //   duration: 0,
+    // });
   }
 
   /**
@@ -85,7 +90,6 @@ export default class Fish extends Sprite {
    */
   async _addFishImages() {
     const that = this;
-    const container = new Container();
 
     this.smallFish = Texture.from('small');
     this.bigFish = Texture.from('big');
