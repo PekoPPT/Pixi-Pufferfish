@@ -1,4 +1,4 @@
-import { Sprite, Graphics, Texture } from 'pixi.js';
+import { Sprite, Graphics, Texture, Container } from 'pixi.js';
 import Assets from '../core/AssetManager';
 import { gsap, Elastic } from 'gsap';
 import PixiPlugin from "gsap/PixiPlugin";
@@ -17,6 +17,10 @@ export default class Fish extends Sprite {
     this.smallFish = null;
     this.bigFish = null;
     this.initFish();
+    // this.x = 100;
+    // this.y = 100;
+    // this.interactive = true;
+    // this.buttonMode = true;
   }
 
   /**
@@ -81,6 +85,7 @@ export default class Fish extends Sprite {
    */
   async _addFishImages() {
     const that = this;
+    const container = new Container();
 
     this.smallFish = Texture.from('small');
     this.bigFish = Texture.from('big');
@@ -91,15 +96,12 @@ export default class Fish extends Sprite {
     this.fish = fish;
     this.fish.anchor.set(0.5);
     this.fish.name = 'fish';
-    this.fish.x = window.innerWidth / 2;
-    this.fish.y = window.innerHeight / 2;
-    this.fish.interactive = true;
     this.fish.buttonMode = true;
+    this.fish.interactive = true;
 
     this.fish.on('pointerdown', () => {
       that.expand();
     });
-    window.__PIXI_APP.stage.addChild(fish);
 
   }
 
