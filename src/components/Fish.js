@@ -1,5 +1,4 @@
 import { Sprite, Graphics, Texture, Container } from 'pixi.js';
-import Assets from '../core/AssetManager';
 import { gsap, Elastic } from 'gsap';
 import PixiPlugin from "gsap/PixiPlugin";
 
@@ -43,8 +42,9 @@ export default class Fish extends Sprite {
   }
 
   /**
-   * Hides the "Small" fish. Shows the "Big" fish. 
+   * Shows the "Big" fish. 
    * Scales the "Fish sprite 1.5 times with GSAP and easing 
+   *
    *
    * @memberof Fish
    */
@@ -73,8 +73,8 @@ export default class Fish extends Sprite {
   }
 
   /**
-   * Hides the "Big" fish. Shows the "Small" fish. 
-   * Scales the fish sprite to its original size
+   * Shows the "Small" fish. 
+   * 
    *
    * @memberof Fish
    */
