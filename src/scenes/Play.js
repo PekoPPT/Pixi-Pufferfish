@@ -14,7 +14,7 @@ export default class Play extends Scene {
 
     // Initizlize Fish object and add it to the scene
     const fish = new Fish();
-    this.addChild(fish);
+    this.addChild(fish.fish);
   }
 
   /**
